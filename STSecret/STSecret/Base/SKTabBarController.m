@@ -10,6 +10,7 @@
 
 #import "SKWebViewController.h"
 #import "SKTableViewController.h"
+#import "SKTestViewController.h"
 
 #define kExploreTabItemFrame CGRectMake(2, 22, 119, 49)
 #define kPublishTabItemFrame CGRectMake(125.5, 1.0, 69, 69)
@@ -34,7 +35,7 @@ const NSInteger SKTabBarButtonTagOffset = 100;
         SKTableViewController *viewController0 = [[SKTableViewController alloc] init];
         STNavigationController *navigationController0 = [[STNavigationController alloc] initWithRootViewController:viewController0];
 
-        SKTableViewController *viewController1 = [[SKTableViewController alloc] init];
+        SKTestViewController *viewController1 = [[SKTestViewController alloc] init];
         STNavigationController *navigationController1 = [[STNavigationController alloc] initWithRootViewController:viewController1];
 
         self.viewControllers = @[navigationController0, navigationController1];

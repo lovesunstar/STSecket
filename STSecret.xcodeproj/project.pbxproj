@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		06CB5BA61A540BE500ABD7D3 /* STKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06CB5BA51A540BE500ABD7D3 /* STKit.framework */; };
+		06CB5BA91A540EAD00ABD7D3 /* SKRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CB5BA81A540EAD00ABD7D3 /* SKRoundButton.m */; };
+		06CB5BAC1A540FB800ABD7D3 /* SKTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CB5BAB1A540FB800ABD7D3 /* SKTestViewController.m */; };
 		F6D460EB18ED2D6900D5167C /* SKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D460EA18ED2D6900D5167C /* SKWebViewController.m */; };
 		F6D65A7818E456340026294F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D65A7718E456340026294F /* Foundation.framework */; };
 		F6D65A7A18E456340026294F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D65A7918E456340026294F /* CoreGraphics.framework */; };
@@ -24,6 +26,10 @@
 
 /* Begin PBXFileReference section */
 		06CB5BA51A540BE500ABD7D3 /* STKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = STKit.framework; sourceTree = "<group>"; };
+		06CB5BA71A540EAD00ABD7D3 /* SKRoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKRoundButton.h; sourceTree = "<group>"; };
+		06CB5BA81A540EAD00ABD7D3 /* SKRoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKRoundButton.m; sourceTree = "<group>"; };
+		06CB5BAA1A540FB800ABD7D3 /* SKTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTestViewController.h; sourceTree = "<group>"; };
+		06CB5BAB1A540FB800ABD7D3 /* SKTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTestViewController.m; sourceTree = "<group>"; };
 		F6D460E918ED2D6900D5167C /* SKWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKWebViewController.h; sourceTree = "<group>"; };
 		F6D460EA18ED2D6900D5167C /* SKWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKWebViewController.m; sourceTree = "<group>"; };
 		F6D65A7418E456340026294F /* STSecret.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = STSecret.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +138,10 @@
 				F6D65AC118E529240026294F /* SKTableViewController.m */,
 				F6D460E918ED2D6900D5167C /* SKWebViewController.h */,
 				F6D460EA18ED2D6900D5167C /* SKWebViewController.m */,
+				06CB5BA71A540EAD00ABD7D3 /* SKRoundButton.h */,
+				06CB5BA81A540EAD00ABD7D3 /* SKRoundButton.m */,
+				06CB5BAA1A540FB800ABD7D3 /* SKTestViewController.h */,
+				06CB5BAB1A540FB800ABD7D3 /* SKTestViewController.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -207,6 +217,8 @@
 				F6D65AB818E461610026294F /* SKTabBarController.m in Sources */,
 				F6D65AB518E4614C0026294F /* SKViewController.m in Sources */,
 				F6D65A8418E456340026294F /* main.m in Sources */,
+				06CB5BA91A540EAD00ABD7D3 /* SKRoundButton.m in Sources */,
+				06CB5BAC1A540FB800ABD7D3 /* SKTestViewController.m in Sources */,
 				F6D65AC218E529240026294F /* SKTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
