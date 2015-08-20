@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import <STKit/Foundation+STKit.h>
 
 /**
  * @abstract location是否被该Range包含
  */
 ST_INLINE BOOL STLocationInRange(NSRange range, NSUInteger location) {
-    return (location >= range.location) && (location <= (range.location + range.length));
+    return (location >= range.location) && (location < (range.location + range.length));
 }
 /**
  * @abstract range1 是否包含range2
@@ -33,12 +32,13 @@ static u_int64_t STTextCheckingTypeCustomLink = (1ULL << 33);
  */
 @interface STLinkObject : NSObject
 /// 该对象包含的URL，如果没有URL
-@property(nonatomic, readonly, strong) NSURL *URL;
-@property(nonatomic, readonly, strong) NSString *value;
+@property(STPROPERTYNULLABLE nonatomic, readonly, strong) NSURL *URL;
+@property(STPROPERTYNULLABLE nonatomic, readonly, strong) NSString *value;
 @property(nonatomic, readonly, assign) NSRange range;
 
 @end
 
+ST_ASSUME_NONNULL_BEGIN
 @class STLinkLabel;
 /**
  * @abstract 超链接点击时的回调
@@ -66,10 +66,11 @@ static u_int64_t STTextCheckingTypeCustomLink = (1ULL << 33);
  */
 - (BOOL)linkLabel:(STLinkLabel *)linkLabel shouldSelectLinkObject:(STLinkObject *)linkObject;
 @end
+ST_ASSUME_NONNULL_END
 
 /**
  * @abstract 此Label为可以带链接的Label。其中会自动解析文本中包含的链接 @see NSDataDetector, 并为其添加点击事件@see STLinkLabelDelegate。
- * 支持CustomLink，格式为 <link href="someURL" value="xxxx" color="0xFFFFFF" highlightedColor="0xFF0000" highlightedBackgroundColor="">display</link>
+ * 支持CustomLink，格式为 <link href="someURL" value="xxxx" color="0xFFFFFF" highlightedColor="0xFF0000" highlightedBackgroundColor="" backgroundColor="0xF0F0F0">display</link>
  * 若要支持CustomLink，需要设置checkingType|STTextCheckingTypeCustomLink
  * CustomLink 优先于SystemTextCheckingType
  */
@@ -77,11 +78,11 @@ static u_int64_t STTextCheckingTypeCustomLink = (1ULL << 33);
 /// 是否自动解析超链接
 @property(nonatomic, assign) BOOL autoHyperlink;
 /// 点击对象的事件委托
-@property(nonatomic, weak) id<STLinkLabelDelegate> delegate;
+@property(STPROPERTYNULLABLE nonatomic, weak) id<STLinkLabelDelegate> delegate;
 /// 文本内容
-@property(nonatomic, copy) NSString *text;
+@property(STPROPERTYNULLABLE nonatomic, copy) NSString *text;
 /// 文本字体
-@property(nonatomic, strong) UIFont *font;
+@property(STPROPERTYNULLABLE nonatomic, strong) UIFont *font;
 /// 对其方式 default is NSTextAlignmentLeft
 @property(nonatomic, assign) NSTextAlignment textAlignment;
 /// 换行模式 default is NSLineBreakByWordWrapping
@@ -89,15 +90,17 @@ static u_int64_t STTextCheckingTypeCustomLink = (1ULL << 33);
 /// 暂时未用到
 @property(nonatomic, assign) NSInteger numberOfLines;
 /// 文本颜色
-@property(nonatomic, strong) UIColor *textColor;
+@property(STPROPERTYNULLABLE nonatomic, strong) UIColor *textColor;
 /// 超链接颜色， 默认blue
-@property(nonatomic, strong) UIColor *linkColor;
+@property(STPROPERTYNULLABLE nonatomic, strong) UIColor *linkColor;
+/// 超链接背景颜色
+@property(STPROPERTYNULLABLE nonatomic, strong) UIColor *linkBackgroundColor;
 /// 文本高亮的颜色
-@property(nonatomic, strong) UIColor *highlightedTextColor;
+@property(STPROPERTYNULLABLE nonatomic, strong) UIColor *highlightedTextColor;
 /// 超链接高亮的颜色
-@property(nonatomic, strong) UIColor *highlightedLinkColor;
+@property(STPROPERTYNULLABLE nonatomic, strong) UIColor *highlightedLinkColor;
 /// 超链接高亮时的背景颜色，默认gray
-@property(nonatomic, strong) UIColor *linkBackgroundColor;
+@property(STPROPERTYNULLABLE nonatomic, strong) UIColor *highlightedLinkBackgroundColor;
 @property(nonatomic, assign) BOOL     continueTouchEvent;
 
 @property(nonatomic, assign, getter=isHighlighted) BOOL highlighted; // default is  NO
@@ -108,14 +111,14 @@ static u_int64_t STTextCheckingTypeCustomLink = (1ULL << 33);
 
 @property(nonatomic, assign) CGFloat verticalTouchAreaFactor; // default is 1.0
 
-+ (CGSize)sizeWithText:(NSString *)linkText font:(UIFont *)font constrainedToSize:(CGSize)constrainedSize paragraphStyle:(NSParagraphStyle *)paragraphStyle;
++ (CGSize)sizeWithText:(STNONNULL NSString *)linkText font:(STNONNULL UIFont *)font constrainedToSize:(CGSize)constrainedSize paragraphStyle:(STNULLABLE NSParagraphStyle *)paragraphStyle;
 
-+ (CGSize)sizeWithText:(NSString *)linkText textCheckingTypes:(NSTextCheckingTypes)checkingTypes font:(UIFont *)font constrainedToSize:(CGSize)constrainedSize paragraphStyle:(NSParagraphStyle *)paragraphStyle;
++ (CGSize)sizeWithText:(STNONNULL NSString *)linkText textCheckingTypes:(NSTextCheckingTypes)checkingTypes font:(STNONNULL UIFont *)font constrainedToSize:(CGSize)constrainedSize paragraphStyle:(STNULLABLE NSParagraphStyle *)paragraphStyle;
 
 @end
 
 @interface NSString (STLinkLabel)
 
-- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)constrainedSize paragraphStyle:(NSParagraphStyle *)paragraphStyle;
+- (CGSize)sizeWithFont:(STNONNULL UIFont *)font constrainedToSize:(CGSize)constrainedSize paragraphStyle:(STNULLABLE NSParagraphStyle *)paragraphStyle;
 
 @end

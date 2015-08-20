@@ -58,10 +58,10 @@ typedef NS_ENUM(NSInteger, STImageDownloadOrder) {
 - (NSInteger)loadImageWithURLString:(NSString *)URLString finishedHandler:(STImageLoaderHandler)finishedHandler;
 
 - (NSInteger)loadImageWithURLString:(NSString *)URLString
-                    progressHandler:(STImageProgressHandler)progressHandler
-                    finishedHandler:(STImageLoaderHandler)finishedHandler;
+               progressHandler:(STImageProgressHandler)progressHandler
+               finishedHandler:(STImageLoaderHandler)finishedHandler;
 
 - (void)cancelLoadImageWithURLString:(NSString *)URLString;
-/// 每个request都会有唯一的identifier，可以根据id去获取operation
-- (void)cancelLoadImageRequestWithIdentifier:(NSInteger)identifier;
+
+- (void)cancelLoadImageWithIdentifier:(NSInteger)identifier;
 @end

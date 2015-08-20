@@ -47,6 +47,10 @@ const NSInteger SKTabBarButtonTagOffset = 100;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.tabBar.customizable = YES;
+    self.tabBar.separatorView.hidden = YES;
+    self.tabBar.barTintColor = [UIColor clearColor];
+    self.tabBar.backgroundColor = [UIColor clearColor];
+    self.tabBar.translucent = NO;
     self.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar_bkg"];
 
     CGPoint publishCenterPoint = CGPointMake(CGRectGetMidX(kPublishTabItemFrame), CGRectGetMidY(kPublishTabItemFrame));

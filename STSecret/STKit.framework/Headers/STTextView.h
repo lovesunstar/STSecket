@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <STKit/STLabel.h>
 /// 提供了有placeHolder的文本输入框
 @interface STTextView : UITextView
 
-@property(nonatomic, strong) UIColor *placeholderColor;
-
-@property(nonatomic, copy) NSString *placeholder;
+@property(STPROPERTYNONNULL nonatomic, strong, readonly) STLabel *placeholderLabel;
+@property(STPROPERTYNULLABLE nonatomic, copy) NSString *placeholder;
 
 @end

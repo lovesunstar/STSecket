@@ -9,6 +9,38 @@
 #ifndef STKit_STDefines_h
 #define STKit_STDefines_h
 
+#define ST_UNAVAILABLE(x) __attribute__((unavailable(x)))
+
+#if __has_feature(nullability)
+#define STNONNULL nonnull
+#define STPROPERTYNONNULL nonnull,
+#define ST_NONNULL __nonnull
+
+#define STNULLABLE nullable
+#define STPROPERTYNULLABLE nullable,
+#define ST_NULLABLE __nullable
+
+#define ST_ASSUME_NONNULL_BEGIN NS_ASSUME_NONNULL_BEGIN
+#define ST_ASSUME_NONNULL_END NS_ASSUME_NONNULL_END
+
+#else
+
+#define STNONNULL
+#define STPROPERTYNONNULL
+#define ST_NONNULL
+
+#define STNULLABLE
+#define STPROPERTYNULLABLE
+
+#define ST_NULLABLE
+#define ST_START_NONNULL
+#define ST_END_NONNULL
+
+#define ST_ASSUME_NONNULL_BEGIN
+#define ST_ASSUME_NONNULL_END
+
+#endif
+
 #if !defined(ST_INLINE)
 #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 #define ST_INLINE static inline
@@ -25,34 +57,40 @@
 #define ST_EXTERN extern
 #endif
 
-#endif
-
 #import <CoreGraphics/CoreGraphics.h>
 #import <Foundation/Foundation.h>
 
 #ifndef DEBUG
-#ifdef STLog
-#undef STLog(format, ...)
-#define STLog(format, ...)
-#else
-#define STLog(format, ...)
+    #ifdef STLog
+        #undef STLog(format, ...)
+        #define STLog(format, ...)
+    #else
+        #define STLog(format, ...)
+    #endif
+    #else
+        #ifndef STLog
+        #define STLog(format, ...) NSLog((@"%s [Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+    #endif
 #endif
-#else
-#ifndef STLog
-#define STLog(format, ...) NSLog((@"%s [Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+#ifndef STLogStruct
+    #define STLogStruct
+    #define STLogPoint(point) STLog(@"Point (%f, %f)", point.x, point.y);
+    #define STLogSize(size) STLog(@"Size (%f, %f)", size.width, size.height);
+    #define STLogRect(rect) STLog(@"Rect (%f,%f,%f,%f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+    #define STLogEdgeInsets(insets) STLog(@"EdgeInsets (%f,%f,%f,%f)", insets.top, insets.left, insets.bottom, insets.right);
 #endif
-#endif
+
+ST_INLINE CGFloat STDistanceBetweenPoints(CGPoint point1, CGPoint point2) {
+    CGFloat distance2 = ABS((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y));
+    return sqrtf(distance2);
+}
 
 /// 定义一种结构体，用来表示区间。表示一个 从 几到几 的概念
 typedef struct _STRange {
     NSInteger start;
     NSInteger end;
 } STRange;
-
-ST_INLINE CGFloat STDistanceBetweenPoints(CGPoint point1, CGPoint point2) {
-    CGFloat distance2 = ABS((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y));
-    return sqrtf(distance2);
-}
 
 /**
  * @brief 创建结构体 STRange，结构体中保存start，end
@@ -74,7 +112,7 @@ ST_INLINE STRange STRangeMake(NSInteger start, NSInteger end) {
  * @param i 要比较的数
  * @return i在区间 r内，返回YES；否则，返回NO
  */
-ST_INLINE BOOL InRange(STRange r, NSInteger i) { return (r.start <= i) && (r.end >= i); }
+ST_INLINE BOOL STIsInRange(STRange r, NSInteger i) { return (r.start <= i) && (r.end >= i); }
 /**
  * @brief 该点是否在某一rect区间内
  * @param p 点
@@ -83,3 +121,5 @@ ST_INLINE BOOL InRange(STRange r, NSInteger i) { return (r.start <= i) && (r.end
 ST_INLINE BOOL CGPointInRect(CGPoint p, CGRect r) {
     return p.x > r.origin.x && p.x < (r.origin.x + r.size.width) && p.y > r.origin.y && p.y < (r.origin.y + r.size.height);
 }
+
+#endif

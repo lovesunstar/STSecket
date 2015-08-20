@@ -22,7 +22,7 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationItem.title = @"测试组件";
     // Do any additional setup after loading the view.
-    [self.view addTouchTarget:self action:@selector(tappedBackground:)];
+    [self.view st_addTouchTarget:self action:@selector(tappedBackground:)];
     
     self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, self.view.width - 20, 20)];
     self.statusLabel.textColor = [UIColor redColor];

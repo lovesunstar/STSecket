@@ -8,79 +8,72 @@
 
 #import <STKit/Foundation+STKit.h>
 #import <Foundation/Foundation.h>
-#import <STKit/STNetwork.h>
+#import "STNetworkConfiguration.h"
 
-@class STNetworkOperation;
-typedef void (^STHTTPNetworkHandler)(STNetworkOperation *operation, id response, NSError *error);
+/// 100以下的是客户端错误， 100->600 之间的为标准的HTTP协议错误
+typedef NS_ENUM(NSInteger, STHTTPNetworkErrorCode) {
+    
+    STHTTPNetworkErrorCodeUserCancelled     = 1,
+    STHTTPNetworkErrorCodeCantLoadCache     = 10,
+    /// 301跳转，永久重定向
+    STHTTPNetworkErrorCodeMovedTemporarily  = 301,
+    /// 302跳转，服务器redirect
+    STHTTPNetworkErrorCodeMovedPermanently  = 302,
+    STHTTPNetworkErrorCodeServerForbidden   = 403,
+    STHTTPNetworkErrorCodePageNotFound      = 404,
+    STHTTPNetworkErrorCodeMethodNotAllowed  = 405,
+    STHTTPNetworkErrorCodeNotAcceptable     = 406,
+    //    服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。一般来说，这个问题都会在服务器端的源代码出现错误时出现
+    STHTTPNetworkErrorCodeInternetServerError = 500,
+    STHTTPNetworkErrorCodeNotImplemented      = 501,
+    STHTTPNetworkErrorCodeBadGateway          = 502,
+    STHTTPNetworkErrorCodeServiceUnavailable  = 503,
+    STHTTPNetworkErrorCodeGatewayTimeout      = 504,
+    STHTTPNetworkErrorCodeHTTPVersionNotSupported = 505,
+    
+    STHTTPNetworkErrorCodeUnsupportedResponseDataType  = 1001,   // 不是预期的返回结果
+    
+    STHTTPNetworkErrorCodeBadNetwork = -1,
+    STHTTPNetworkErrorCodeTimeout = NSURLErrorTimedOut,  // -1001
+    STHTTPNetworkErrorCodeOther   = -97676901,
+    
+};
+
+@class STHTTPOperation;
+typedef void (^STHTTPNetworkHandler)(STHTTPOperation *operation, id response, NSError *error);
 typedef void (^STHTTPSynchronousNetworkHandler)(NSURLResponse *response, id data, NSError *error);
 
-/// default text/json
-typedef NS_ENUM(NSInteger, STHTTPResponseDataType) {
-    STHTTPResponseDataTypeTextHTML = 0, // 返回类型位HTML text/html
-    STHTTPResponseDataTypeTextJSON = 1, // 返回类型位JSON text/json
-    STHTTPResponseDataTypeTextXML  = 2  // 返回类型位XML  text/xml
-};
-
-typedef NS_OPTIONS(NSInteger, STXMLParseOptions){
-    STXMLParseOptionsProcessNamespaces = 1 << 0,
-    STXMLParseOptionsReportNamespacePrefixes = 1 << 1,
-    STXMLParseOptionsResolveExternalEntities = 1 << 2,
-};
 /// HTTP类型的网络请求
-@interface STHTTPNetwork : STNetwork
+@interface STHTTPNetwork : NSObject
 
-@property(nonatomic, copy) NSString *HTTPMethod;
-/// 基本参数，最后请求时，会带上这些基本参数，如果key重复，则以后面的为准
-@property(nonatomic, copy) NSDictionary *basicParameters;
-/// 超时时间
-@property(nonatomic, assign) NSTimeInterval timeoutInterval;
-@property(nonatomic, assign) NSStringEncoding dataEncoding;
-// default text/json
-@property(nonatomic, assign) STHTTPResponseDataType dataType;
-/// used when dataType is text/json
-@property(nonatomic, assign) NSJSONReadingOptions JSONReadingOptions;
-/// used when dataType is text/xml
-@property(nonatomic, assign) STXMLParseOptions XMLParseOptions;
-/// 元素内容的key.默认content
-@property(nonatomic, copy) NSString *XMLElementContextKey;
++ (instancetype)defaultHTTPNetwork;
++ (NSURLCache *)defaultHTTPCache;
 
-/// url prefix  host/path/method?parameters
-- (instancetype)initWithHost:(NSString *)host path:(NSString *)path;
+@property(nonatomic, strong, readonly) NSURLSession *URLSession;
 
-/**
- * @abstract 发送异步网络请求
- *
- * @param    Method     请求的方法，会和设置的host/path 拼接起来
- * @param    HTTPMethod 请求的方式，有POST/GET/PUT/DELETE 等，默认为GET
- * @param    parameters 请求的参数，如果有文件资源，请参考 @see STPostDataItem
- * @param    handlers   请求各个阶段的回调
- *
- * @attention  所有handlers 均会在主线程 回调
- */
-- (STNetworkOperation *)sendAsynchronousRequestWithMethod:(NSString *)method
-                                               parameters:(NSDictionary *)parameters
-                                                  handler:(STHTTPNetworkHandler)handler;
+- (instancetype)initWithConfiguration:(STNetworkConfiguration *)configuration;
+/// default mainQueue
+@property(nonatomic, strong) dispatch_queue_t   callbackQueue;
+@property(nonatomic, assign) NSInteger          maxConcurrentRequestCount;
 
-- (STNetworkOperation *)sendAsynchronousRequestWithMethod:(NSString *)method
-                                               HTTPMethod:(NSString *)HTTPMethod
-                                               parameters:(NSDictionary *)parameters
-                                                  handler:(STHTTPNetworkHandler)handler;
 
-/**
- * @abstract 发送同步网络请求
- *
- * @param    Method     请求的方法，会和设置的host/path 拼接起来
- * @param    HTTPMethod 请求的方式，有POST/GET/PUT/DELETE 等，默认为GET
- * @param    parameters 请求的参数，如果有文件资源，请参考 @see STPostDataItem
- * @param    handler    请求结束时的回掉
- *
- * @attention  同步请求会阻塞当前线程，请谨慎使用.@see
- *sendAsynchronousRequestWithURLString:
- */
-- (void)sendSynchronousRequestWithMethod:(NSString *)method parameters:(NSDictionary *)params handler:(STHTTPSynchronousNetworkHandler)handler;
+- (void)sendHTTPOperation:(STHTTPOperation *)operation;
 
-- (void)sendSynchronousRequestWithMethod:(NSString *)method
-                              HTTPMethod:(NSString *)HTTPMethod
-                              parameters:(NSDictionary *)parameters
-                                 handler:(STHTTPSynchronousNetworkHandler)handler;
+- (void)cancelHTTPOperation:(STHTTPOperation *)operation;
+
 @end
+
+@interface STHTTPNetwork (STHTTPConvenience)
+
+- (void)sendHTTPOperation:(STHTTPOperation *)operation
+        completionHandler:(STHTTPNetworkHandler)completionHandler;
+
+- (STHTTPOperation *)sendRequestWithURLString:(NSString *)URLString
+                                   parameters:(NSDictionary *)parameters
+                            completionHandler:(STHTTPNetworkHandler)completionHandler;
+
+@end
+
+
+extern NSString *const STHTTPNetworkErrorDomain;
+extern NSString *const STHTTPNetworkErrorDescriptionUserInfoKey;

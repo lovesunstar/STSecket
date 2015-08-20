@@ -16,16 +16,21 @@
     if (self) {
         self.layer.masksToBounds = YES;
         
-        __weak SKRoundButton *weakSelf = self;
-        self.hitTestBlock = ^(CGPoint point, UIEvent *event, BOOL *returnSuper) {
-            CGPoint center = CGPointMake(CGRectGetWidth(weakSelf.bounds) / 2, CGRectGetHeight(weakSelf.bounds) / 2);
-            if (STDistanceBetweenPoints(point, center) <= weakSelf.size.width / 2) {
-                *returnSuper = YES;
-            }
-            return (UIView *)nil;
-        };
+//        __weak SKRoundButton *weakSelf = self;
+//        self.hitTestBlock = ^(CGPoint point, UIEvent *event, BOOL *returnSuper) {
+//            CGPoint center = CGPointMake(CGRectGetWidth(weakSelf.bounds) / 2, CGRectGetHeight(weakSelf.bounds) / 2);
+//            if (STDistanceBetweenPoints(point, center) <= weakSelf.size.width / 2) {
+//                *returnSuper = YES;
+//            }
+//            return (UIView *)nil;
+//        };
     }
     return self;
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    CGPoint center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) / 2);
+    return STDistanceBetweenPoints(point, center) <= self.size.width / 2;
 }
 
 - (void)setFrame:(CGRect)frame {
@@ -34,6 +39,11 @@
     }
     [super setFrame:frame];
     self.layer.cornerRadius = CGRectGetWidth(frame) / 2;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    NSLog(@"===Touches");
 }
 
 @end

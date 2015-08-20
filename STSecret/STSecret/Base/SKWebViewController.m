@@ -44,7 +44,7 @@
 }
 
 - (void) dismissViewController:(id)sender {
-    [self.customNavigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.st_navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*

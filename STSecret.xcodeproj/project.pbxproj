@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		065D78ED1A84C2020083D058 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 065D78EC1A84C2020083D058 /* libz.1.2.5.dylib */; };
 		06CB5BA61A540BE500ABD7D3 /* STKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06CB5BA51A540BE500ABD7D3 /* STKit.framework */; };
 		06CB5BA91A540EAD00ABD7D3 /* SKRoundButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CB5BA81A540EAD00ABD7D3 /* SKRoundButton.m */; };
 		06CB5BAC1A540FB800ABD7D3 /* SKTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CB5BAB1A540FB800ABD7D3 /* SKTestViewController.m */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		065D78EC1A84C2020083D058 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		06CB5BA51A540BE500ABD7D3 /* STKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = STKit.framework; sourceTree = "<group>"; };
 		06CB5BA71A540EAD00ABD7D3 /* SKRoundButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKRoundButton.h; sourceTree = "<group>"; };
 		06CB5BA81A540EAD00ABD7D3 /* SKRoundButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKRoundButton.m; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				065D78ED1A84C2020083D058 /* libz.1.2.5.dylib in Frameworks */,
 				F6D65A7A18E456340026294F /* CoreGraphics.framework in Frameworks */,
 				F6D65A7C18E456340026294F /* UIKit.framework in Frameworks */,
 				06CB5BA61A540BE500ABD7D3 /* STKit.framework in Frameworks */,
@@ -87,6 +90,7 @@
 		F6D65A7618E456340026294F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				065D78EC1A84C2020083D058 /* libz.1.2.5.dylib */,
 				F6D65A7718E456340026294F /* Foundation.framework */,
 				F6D65A7918E456340026294F /* CoreGraphics.framework */,
 				F6D65A7B18E456340026294F /* UIKit.framework */,

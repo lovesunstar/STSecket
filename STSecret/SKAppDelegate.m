@@ -10,6 +10,13 @@
 
 #import "SKTabBarController.h"
 
+@implementation SKApplication
+
+- (void)sendEvent:(UIEvent *)event {
+    [super sendEvent:event];
+}
+
+@end
 
 @implementation SKAppDelegate
 

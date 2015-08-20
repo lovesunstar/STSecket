@@ -28,3 +28,10 @@
 - (instancetype)initWithURLString:(NSString *)URLString;
 
 @end
+
+
+@interface STWebViewController (STLocalFile)
+
+- (instancetype)initWithContentsOfFile:(NSString *)path;
+
+@end

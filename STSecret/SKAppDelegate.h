@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@interface SKApplication :UIApplication
+
+@end
+
 @interface SKAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

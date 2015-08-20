@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <STKit/STRSACryptor.h>
+#import "STHTTPConfiguration.h"
 
 /// 以下内容仅有一项就可以了
 @interface STCertificateItem : NSObject
@@ -26,12 +27,13 @@
 @end
 
 typedef NS_ENUM(NSInteger, STSSLPinningMode) {
-    STSSLPinningModeNone = 1,
-    STSSLPinningModePublicKey = 2,   // 只验证public是否正确
-    STSSLPinningModeCertificate = 3  // 验证Public是否正确，以及证书是否有效
+    STSSLPinningModeNone        = 1 << 0,
+    STSSLPinningModePublicKey   = 1 << 1,   // 只验证public是否正确
+    STSSLPinningModeCertificate = 1 << 2  // 验证Public是否正确，以及证书是否有效
 };
 
-@interface STNetworkConfiguration : NSObject
+
+@interface STNetworkConfiguration : NSObject <NSCopying>
 
 + (instancetype)sharedConfiguration;
 /// 是否允许未经过验证的证书，默认允许。如果允许，则忽略SSLPinningMode。default yes
@@ -45,5 +47,9 @@ typedef NS_ENUM(NSInteger, STSSLPinningMode) {
 
 @property(nonatomic, strong) NSURLCredential *HTTPBasicCredential;
 @property(nonatomic, strong) NSURLCredential *clientCertificateCredential;
+
+@property NSInteger  cacheDiskCapacity;
+
+@property(nonatomic, strong) STHTTPConfiguration    *HTTPConfiguration;
 
 @end

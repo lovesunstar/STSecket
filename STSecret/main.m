@@ -13,6 +13,6 @@
 int main(int argc, char * argv[])
 {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([SKAppDelegate class]));
+        return UIApplicationMain(argc, argv, NSStringFromClass([SKApplication class]), NSStringFromClass([SKAppDelegate class]));
     }
 }
